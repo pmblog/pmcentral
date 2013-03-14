@@ -1,48 +1,20 @@
-<?php
-/**
- * The Sidebar containing the primary and secondary widget areas.
- **/
-?>
-<div id="sidebar">
-
-    <div id="events" class="widget-area">
-        <ul class="xoxo">
-            <?php
-            if ( ! dynamic_sidebar( 'event-widget-area' ) ) : ?>
-            <?php endif; // end primary widget area ?>
-        </ul>
-    </div><!-- #events .widget-area -->
-
-    <div id="primary" class="widget-area" role="complementary">
-        <ul class="xoxo">
-            <?php
-                if ( ! dynamic_sidebar( 'primary-widget-area' ) ) : ?>
-                <!-- li id="archives" class="widget-container">
-                    <h3 class="widget-title">Archives</h3>
-                    <ul><?php //wp_get_archives( 'type=monthly' ); ?></ul>
-                </li-->
-
-                <?php endif; // end primary widget area ?>
-        </ul>
-    </div><!-- #primary .widget-area -->
-
-    <div id="secondary" class="widget-area" role="complementary">
-        <ul class="xoxo">
-            <?php
-            if ( ! dynamic_sidebar( 'secondary-widget-area' ) ) : ?>
-                <li id="meta" class="widget-container">
-                    <h3 class="widget-title">Meta</h3>
-                    <ul>
-                        <?php wp_register(); ?>
-                        <li><?php wp_loginout(); ?></li>
-                        <?php wp_meta(); ?>
-                    </ul>
-                </li>
-                <?php endif; // end secondary widget area ?>
-        </ul>
-    </div><!-- #primary .widget-area -->
-
-
-
-
-</div> <!-- siderbar -->
+<div class="col3 last">
+	<div class="sidebar">
+		<?php if(!$user_ID): ?>
+		<div class="widget blue">
+			<h2>Торгуете запчастями?</h2>
+			<div class="text">
+				<p>
+					<a href="javascript:;">Зарегистрируйтесь</a>, и найдите сотни новых покупателей ежедневно!
+				</p>
+			</div>
+		</div>
+		<?php endif; ?>
+		<div class="widget">
+			<img src="<?php bloginfo( 'template_directory' ); ?>/img/social.png" alt="">
+		</div>
+		<div class="widget">
+			<img src="<?php bloginfo( 'template_directory' ); ?>/img/vk.png" alt="">
+		</div>
+	</div>
+</div>		

@@ -1,226 +1,139 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Yuriy
- * Date: 11/4/12
- * Time: 5:04 PM
- */
+/*-----------------------------------------------------------------------------------*/
+/*	Register WP3.0+ Menus
+/*-----------------------------------------------------------------------------------*/
 
-/** Tell WordPress to run pmc_setup() when the 'after_setup_theme' hook is run. */
-add_action( 'after_setup_theme', 'pmc_setup' );
-
-if ( ! function_exists( 'pmc_setup' ) ):
-    /**
-     * Sets up theme defaults and registers support for various WordPress features.
-     *
-     * Note that this function is hooked into the after_setup_theme hook, which runs
-     * before the init hook. The init hook is too late for some features, such as indicating
-     * support post thumbnails.
-     *
-     * To override pmc_setup() in a child theme, add your own pmc_setup to your child theme's
-     * functions.php file.
-     *
-     * @uses add_theme_support() To add support for post thumbnails and automatic feed links.
-     * @uses register_nav_menus() To add support for navigation menus.
-     * @uses add_custom_background() To add support for a custom background.
-     * @uses add_editor_style() To style the visual editor.
-     * @uses load_theme_textdomain() For translation/localization support.
-     * @uses add_custom_image_header() To add support for a custom header.
-     * @uses register_default_headers() To register the default custom header images provided with the theme.
-     * @uses set_post_thumbnail_size() To set a custom post thumbnail size.
-     *
-     */
-    function pmc_setup() {
-
-        // This theme styles the visual editor with editor-style.css to match the theme style.
-        add_editor_style();
-
-        // This theme uses post thumbnails
-        add_theme_support( 'post-thumbnails' );
-
-        // Add default posts and comments RSS feed links to head
-        add_theme_support( 'automatic-feed-links' );
-
-        // Make theme available for translation
-        // Translations can be filed in the /languages/ directory
-        load_theme_textdomain( 'pmc', TEMPLATEPATH . '/languages' );
-
-        $locale = get_locale();
-        $locale_file = TEMPLATEPATH . "/languages/$locale.php";
-        if ( is_readable( $locale_file ) )
-            require_once( $locale_file );
-
-        // This theme uses wp_nav_menu() in one location.
-        register_nav_menus( array(
-            'primary' => __( 'Primary Navigation', 'pmc' ),
-            'secondary' => __( 'Secondary Navigation', 'pmc' ),
-        ) );
-    }
-endif;
-
-if ( ! function_exists( 'pmc_posted_author' ) ) :
-    /**
-     * Prints HTML with meta information for the current post—date/time and author.
-     */
-    function pmc_posted_author() {
-        printf( __( '%2$s', 'pmc' ),
-            'meta-prep meta-prep-author',
-            sprintf( '<span class="author"><a href="%1$s" title="%2$s">%2$s</a></span>',
-                get_author_posts_url( get_the_author_meta( 'ID' ) ),
-                sprintf( esc_attr__( '%s', 'pmc' ), get_the_author() ),
-                get_the_author()
-            )
-        );
-    }
-endif;
-
-if ( ! function_exists( 'pmc_posted_datetime' ) ) :
-    /**
-     * Prints HTML with meta information for the current post—date/time
-     */
-    function pmc_posted_datetime() {
-        printf( __( '%2$s', '%3$s', 'pmc' ),'meta-prep meta-prep-author',
-            sprintf('<a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a>',
-            get_permalink(),
-            esc_attr( get_the_time() ),
-        get_the_date())
-               );
-    }
-endif;
-
-if ( ! function_exists( 'pmc_posted_category' ) ) :
-    /**
-     * Prints HTML with meta information for the current category
-     */
-    function pmc_posted_category() {
-
-        if ( count( get_the_category() ) ) :
-
-            printf( '<span class="%1$s">%2$s</span> ', 'cat-links', get_the_category_list( ', ' ) );
-
-        endif;
-    }
-endif;
-
-if ( ! function_exists( 'pmc_posted_tags' ) ) :
-    /**
-     * Prints HTML with meta information for the current category
-     */
-    function pmc_posted_tags() {
-
-        $tags_list = get_the_tag_list( '', ', ' );
-        if ( $tags_list ):
-            printf('<span class="%1$s"> %2$s</span>', 'tag-links', $tags_list );
-        endif;
-    }
-endif;
-
-if ( ! function_exists( 'pmc_comments_counter' ) ) :
-    /**
-     * Prints HTML with meta information for the current category
-     */
-    function pmc_comments_counter() {
-    ?>
-        <span class="comments"><?php comments_popup_link( __( 'Оставить комментарий', 'pmc' ),__( '1 Comment', 'pmc' ),__( '% Comments', 'pmc' ) );?></span>
-    <?php
-    }
-endif;
-
-if ( ! function_exists( 'pmc_comments_edit' ) ) :
-    /**
-     * Prints HTML with meta information for the current category
-     */
-    function pmc_comments_edit() {
-
-    edit_post_link( '', '<span class="edit-link">', '</span>' );
-
-   }
-endif;
-
-/* Display social icons */
-if ( ! function_exists( 'pmc_social' ) ) :
-    /**
-     * Prints HTML with meta information for the current category
-     */
-    function pmc_social() {
-        $social = "<span class='social-icon'><img src=".home_url('/')."wp-content/themes/pmc/images/icons/social/facebook.png></span>";
-        $social = $social."<span class='social-icon'><img src=".home_url('/')."wp-content/themes/pmc/images/icons/social/linkedin.png></span>";
-        $social = $social."<span class='social-icon'><img src=".home_url('/')."wp-content/themes/pmc/images/icons/social/twitter.png></span>";
-        $social = $social."<span class='social-icon'><img src=".home_url('/')."wp-content/themes/pmc/images/icons/social/rss.png></span>";
-        $social = $social."<span class='social-icon'><img src=".home_url('/')."wp-content/themes/pmc/images/icons/social/youtube.png></span>";
-        return $social;
-    }
-endif;
-
-
-function pmc_widgets_init(){
-
-    register_sidebar( array(
-        'name' => __( 'Menu Widgets Area', 'pmc' ),
-        'id' => 'menu-widget-area',
-        'description' => __( 'Area for menu widgets', 'pmc' ),
-        'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-        'after_widget' => '</li>',
-        'before_title' => '<h3 class="widget-title">',
-        'after_title' => '</h3>',
-    ) );
-
-    register_sidebar( array(
-        'name' => __( 'Events Widgets Area', 'pmc' ),
-        'id' => 'event-widget-area',
-        'description' => __( 'Area for events widgets', 'pmc' ),
-        'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-        'after_widget' => '</li>',
-        'before_title' => '<h3 class="widget-title">',
-        'after_title' => '</h3>',
-    ) );
-
-    register_sidebar( array(
-        'name' => __( 'Primary Widget Area', 'pmc' ),
-        'id' => 'primary-widget-area',
-        'description' => 'The primary widget area',
-        'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-        'after_widget' => '</li>',
-        'before_title' => '<h3 class="widget-title">',
-        'after_title' => '</h3>',
-    ) );
-
-    register_sidebar( array(
-        'name' => __( 'Secondary Widget Area', 'pmc' ),
-        'id' => 'secondary-widget-area',
-        'description' => 'The secondary widget area',
-        'before_widget' => '<li id="%1$s" class="widget-container %2$s">',
-        'after_widget' => '</li>',
-        'before_title' => '<h3 class="widget-title">',
-        'after_title' => '</h3>',
-    ) );
-
+if( !function_exists( 'my_register_menu' ) ) {
+	function my_register_menu() {
+		register_nav_menu('main-menu', __('Main menu'));
+	}
+	add_action('init', 'my_register_menu');
 }
 
-add_action('widgets_init','pmc_widgets_init');
-
-function paginate() {
-    global $wp_query, $wp_rewrite;
-    $wp_query->query_vars['paged'] > 1 ? $current = $wp_query->query_vars['paged'] : $current = 1;
-
-    $pagination = array(
-        'base' => @add_query_arg('paged','%#%'), //(string) (optional) Used to reference the url, which will be used to create the paginated links. The default value '%_%' in 'http://example.com/all_posts.php%_%' is replaced by 'format' argument (see below). Default: '%_%'
-        'format' => '/page/%#%',
-        'total' => $wp_query->max_num_pages,
-        'current' => $current,
-        'show_all' => false,
-        'end_size'     => 1,
-        'mid_size'     => 2,
-        'type' => 'list',
-        'next_text' => '&raquo;',
-        'prev_text' => '&laquo;'
-    );
-
-    if( $wp_rewrite->using_permalinks() )
-        $pagination['base'] = user_trailingslashit( trailingslashit( remove_query_arg( 's', get_pagenum_link( 1 ) ) ) . 'page/%#%/', 'paged' );
-
-    if( !empty($wp_query->query_vars['s']) )
-        $pagination['add_args'] = array( 's' => get_query_var( 's' ) );
-
-    echo paginate_links( $pagination );
+// Register global settings
+if(function_exists("register_options_page"))
+{
+    register_options_page('Global');
+    register_options_page('Поиск');
 }
+
+//email HTML format
+add_filter('wp_mail_content_type',create_function('', 'return "text/html";'));
+
+/* Disable the Admin Bar */
+show_admin_bar(false);
+
+/*-----------------------------------------------------------------------------------*/
+/*	Load Translation Text Domain
+/*-----------------------------------------------------------------------------------*/
+
+load_theme_textdomain( 'framework' );
+/*-----------------------------------------------------------------------------------*/
+/*	Register Sidebars
+/*-----------------------------------------------------------------------------------*/
+
+if( function_exists('register_sidebar') ) {
+	register_sidebar(array(
+		'name' => 'Main Sidebar',
+		'before_widget' => '<div id="%1$s" class="widget %2$s">',
+		'after_widget' => '</div>',
+		'before_title' => '<h3 class="widget-title"><span>',
+		'after_title' => '</span></h3>',
+	));   
+}
+
+
+/*-----------------------------------------------------------------------------------*/
+/*	Configure WP2.9+ Thumbnails 
+/*-----------------------------------------------------------------------------------*/
+
+if( function_exists( 'add_theme_support' ) ) {
+	add_theme_support( 'post-thumbnails' );
+	set_post_thumbnail_size( '', 50, true ); // Normal post thumbnails
+	add_image_size( 'thumbnail-large', 560, '', false); // for blog pages
+	add_image_size( 'post-homepage', 940, 280, true); // for blog pages
+}
+
+
+add_action( 'wp_print_styles', 'my_deregister_styles', 100 );
+ 
+function my_deregister_styles() {
+	wp_deregister_style( 'wp-admin' );
+}
+/*-----------------------------------------------------------------------------------*/
+/*	Register and load front end JS
+/*-----------------------------------------------------------------------------------*/
+
+if( !function_exists( 'my_enqueue_scripts' ) ) {
+	function my_enqueue_scripts() {
+	  	wp_deregister_script('jquery');
+		wp_register_script('jquery', '/wp-includes/js/jquery/jquery.js');
+		wp_register_script('my_custom', get_template_directory_uri() . '/js/jquery.custom.js', array('jquery', 'ui-custom'));
+		wp_register_script('ui-custom', '/wp-includes/js/jquery/ui/jquery.ui.core.min.js', 'jquery');
+		wp_register_script('mousewheel',  get_template_directory_uri() . '/js/jquery.mousewheel.js', 'jquery');
+		wp_register_script('bootstrap', get_template_directory_uri() . '/js/bootstrap.min.js', 'jquery');
+	
+		wp_enqueue_script('jquery');
+		wp_enqueue_script('ui-custom');
+		wp_enqueue_script('my_custom');
+		wp_enqueue_script('bootstrap');
+		
+		wp_localize_script( 'my_custom', 'ajax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) ); // setting ajaxurl
+	}
+	add_action('wp_enqueue_scripts', 'my_enqueue_scripts');
+}
+
+/*-----------------------------------------------------------------------------------*/
+/*	Add Browser Detection Body Class
+/*-----------------------------------------------------------------------------------*/
+
+if ( !function_exists( 'my_browser_body_class' ) ) {
+	function my_browser_body_class($classes) {
+		global $is_lynx, $is_gecko, $is_IE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone;
+	
+		if($is_lynx) $classes[] = 'lynx';
+		elseif($is_gecko) $classes[] = 'gecko';
+		elseif($is_opera) $classes[] = 'opera';
+		elseif($is_NS4) $classes[] = 'ns4';
+		elseif($is_safari) $classes[] = 'safari';
+		elseif($is_chrome) $classes[] = 'chrome';
+		elseif($is_IE){ 
+			$classes[] = 'ie';
+			if(preg_match('/MSIE ([0-9]+)([a-zA-Z0-9.]+)/', $_SERVER['HTTP_USER_AGENT'], $browser_version)) $classes[] = 'ie'.$browser_version[1];
+		} else $classes[] = 'unknown';
+	
+		if($is_iphone) $classes[] = 'iphone';
+		return $classes;
+	}
+	
+	add_filter('body_class','my_browser_body_class');
+}
+
+
+/*-----------------------------------------------------------------------------------*/
+/*  Root path
+/*-----------------------------------------------------------------------------------*/
+
+if( !function_exists( 'my_root_path' ) ) {
+	function my_root_path($url) {
+		$count = strlen(home_url());
+		$path = substr($url, $count);
+		return $path;
+	}
+}
+
+/*-----------------------------------------------------------------------------------*/
+/*	Allow file download
+/*-----------------------------------------------------------------------------------*/
+
+
+
+
+/*-----------------------------------------------------------------------------------*/
+/*	Load Theme Options
+/*-----------------------------------------------------------------------------------*/
+
+define('MY_FILEPATH', TEMPLATEPATH);
+define('MY_DIRECTORY', get_template_directory_uri());
+
+require_once (MY_FILEPATH . '/functions/theme-functions.php');

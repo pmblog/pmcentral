@@ -1,0 +1,13 @@
+.meta {
+	color: #54958A;
+	text-transform: uppercase;
+	
+	a {
+		color: #54958A;
+		text-decoration: none;
+		font-weight: bold;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}

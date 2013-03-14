@@ -1,15 +1,8 @@
-<div id="footer">
-    <?php
-
-    if ( ! dynamic_sidebar( 'first-footer-widget-area' ) ) : ?>
-
-        <?php endif; // end top widget area ?>
-
-    <?php wp_footer(); ?>
-
-</div>
-
-</div><!-- #wrapper -->
-
+	<div class="footer">
+		<div class="aligner">
+			footer
+		</div>
+	</div>
+<?php wp_footer(); ?>
 </body>
 </html>

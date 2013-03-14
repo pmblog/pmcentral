@@ -1,45 +1,49 @@
-<?php
-/**
- * The Template for displaying all single posts.
- */
-get_header(); ?>
-
-<div id="container">
-    <div id="content">
-        <article>
-            <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
-            <h1><?php the_field('event_date'); ?></h1>
-                <div id="post-<?php the_ID(); ?>" <?php post_class(); ?>><h1 class="entry-title"><?php the_title(); ?><?php pmc_comments_edit(); ?></h1>
-                <div class="entry-meta"><?php pmc_posted_author(); ?></div>
-
-                <?php the_content(); ?>
-                 <?php wp_link_pages( array( 'before' => '<div class="page-link">' . __( 'Pages:', 'pmblog' ), 'after' => '</div>' ) ); ?>
-                <?php pmc_posted_tags(); ?>
-
-                <?php endwhile; // end of the loop. ?>
-        </article>
-        <section>
-        <?php if ( get_the_author_meta( 'description' ) ) : // If a user has filled out their description, show a bio on their entries  ?>
-        <div id="entry-author-info">
-            <div id="author-avatar">
-                <?php echo get_avatar( get_the_author_meta( 'user_email' ), apply_filters( 'author_bio_avatar_size', 60 ) ); ?>
-            </div><!-- #author-avatar -->
-
-            <div id="author-description">
-                <h2><?php printf( esc_attr__( '%s', 'pmc' ), get_the_author() ); ?></h2>
-                <?php the_author_meta( 'description' ); ?>
-                <div id="author-link">
-                    <a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>">
-                        <?php printf( __( 'View all posts by %s <span class="meta-nav">&rarr;</span>', 'pmc' ), get_the_author() ); ?>
-                    </a>
-                </div><!-- #author-link	-->
-            </div><!-- #author-description -->
-        </div><!-- #entry-author-info -->
-        <?php endif; ?>
-        </section>
-        <?php comments_template( '', true ); ?>
-
-    </div><!-- #content -->
-    <?php get_sidebar(); ?>
-</div><!-- #conteiner -->
+<?php get_header(); ?>	
+	<div id="content" class="page archive single">
+		<div class="aligner">			
+			<div class="col3 sidebar">
+				<div  class="cats-list">
+					<ul>
+					<?phpwp_list_categories(
+						array(
+							'orderby'            => 'name',
+							'order'              => 'ASC',
+							'style'              => 'list',
+							'show_count'         => 0,
+							'hide_empty'         => 1,
+							'use_desc_for_title' => 1,
+							'hierarchical'       => true,
+							'title_li'           => ''
+						)
+					); ?>
+					</ul>
+				</div>
+			</div>
+			<div class="col9 last">			
+				<div class="post">
+					<h1><?php the_title(); ?></h1>
+					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+						
+						<div class="post-meta">
+							<div class="date">
+								<i class="icon-calendar"></i>
+								<?= date_i18n('j M, Y', strtotime(get_the_date())); ?>
+							</div>
+							<div class="cats">
+								<i class="icon-folder-close"></i>
+								<?php$cats = wp_get_post_terms(get_the_ID(), 'category'); ?>
+								<?php$i=0; foreach($cats as $cat): $i++; ?>
+									<?phpif ($i>1) echo '| '; ?><a href="/<?= $cat->slug; ?>"><?= $cat->name; ?></a>
+								<?phpendforeach; ?>
+							</div>
+						</div>
+						<div class="text">
+							<?php the_content(); ?>
+						</div>						
+					<?php endwhile; endif; ?>
+				</div>
+			</div>
+		</div>	
+	</div>
+<?php get_sidebar(); ?>	
 <?php get_footer(); ?>

@@ -1,0 +1,67 @@
+@import url(http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic&subset=latin,cyrillic);
+@import url(http://fonts.googleapis.com/css?family=Ubuntu+Condensed);
+
+$default-transition-duration:.3s;
+
+@import "blueprint";
+@import "blueprint/debug";
+@import "compass";
+
+
+@include blueprint-typography;
+
+$ubuntu: 'Ubuntu Condensed', sans-serif;
+
+$blueprint_grid_columns:12;
+$blueprint-grid-width:60px;
+$blueprint-grid-margin:20px;
+
+$i: 12;
+@while $i > 0 {
+  .col#{$i} { @include column($i); }
+  .col#{$i}.last { @include column($i,true); }
+  $i: $i - 1;
+}
+
+$blueprint_grid_columns:12;
+$blueprint-grid-width:6.382978723404255%;
+$blueprint-grid-margin:2.127659574468085%;
+
+$i: 12;
+@while $i > 0 {
+	.row-fluid {
+		&>.prepend#{$i} { @include prepend($i); }
+		&>.append#{$i} { @include append($i); }
+		&>.col#{$i} { @include column($i); }
+		&>.col#{$i}.last { @include column($i,true); }
+	}	
+	$i: $i - 1;
+}
+
+body {
+	color: #333;
+	font-family: 'PT Sans', sans-serif;
+	font-size: 14px;
+}
+
+* {
+	outline:none !important;
+	@include box-sizing(border-box);
+}
+
+.aligner {
+	@include container;
+	//@include grid-background(12, 60px, 20px);
+}
+
+.clear {
+	clear:both;
+}
+
+// Components //
+@import "header";
+@import "main-menu";
+@import "post";
+
+// Pages //
+@import "index";

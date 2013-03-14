@@ -1,0 +1,53 @@
+.header {
+	height: 130px;
+	
+	.logo {
+		margin-top: 16px;
+	}
+
+	.header-interface {
+		text-align: right;
+		margin-top: 30px;
+
+		.search-form {
+			width: 170px;
+			position: relative;
+			display: inline-block;
+			vertical-align:middle;
+
+			#search-input {
+				background: #f2f2f2;
+				border: 1px solid #e6e6e6;
+				height: 30px;
+				padding: 10px;
+				width: 170px;		
+			}
+
+			#search-submit {
+				right: 7px;
+				top: 8px;
+				width: 14px;
+				height: 14px;
+				position: absolute;
+				border: none;
+				background: url('../img/search.png') no-repeat;
+			}
+		}
+		
+		.social {
+			display: inline-block;
+			height: 30px;
+			vertical-align:middle;
+			margin-left: 20px;
+		}
+
+		.welcome-message {
+			margin-top: 10px;
+
+			a {
+				color: #333;
+				font-weight: bold;
+			}
+		}
+	}	
+}

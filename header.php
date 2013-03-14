@@ -1,35 +1,43 @@
-<?php
-
-?><!DOCTYPE html>
-<html <?php language_attributes(); ?>>
+<!DOCTYPE HTML>
+<html lang="ru-RU">
 <head>
-    <meta charset="<?php bloginfo( 'charset' ); ?>" />
-    <title><?php
-
-        wp_title( '|', true, 'right' );
-        bloginfo( 'name' );
-
-    ?></title>
-
-    <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
-    <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
-    <link rel="profile" href="http://gmpg.org/xfn/11" />
-    <?php
-    /* We add some JavaScript to pages with the comment form
-     * to support sites with threaded comments (when in use).
-     */
-    if ( is_singular() && get_option( 'thread_comments' ) )
-        wp_enqueue_script( 'comment-reply' );
-
-    /* Always have wp_head() just before the closing </head> tag of your theme, or you will break many plugins, which
-     * generally use this hook to add elements to <head> such as styles, scripts, and meta tags. */
-
-    wp_head();
-    ?>
+	<meta charset="UTF-8">
+	<title>Project Management Central</title>
+	<link rel="stylesheet" href="http://necolas.github.com/normalize.css/2.1.0/normalize.css">
+	<link rel="stylesheet" type="text/css" href="<?php bloginfo( 'template_directory' ); ?>/css/screen.css">
+	<?php wp_head(); ?>
 </head>
 
-<body>
-
-
-<div id="wrapper">
-
+<body <?php body_class(); ?>>
+	<div class="header">
+		<div class="aligner row-fluid">
+			<div class="logo col6">
+				<a href="/">
+					<img src="<?php bloginfo( 'template_directory' ); ?>/img/logo.png">
+				</a>				
+			</div>
+			<div class="col6 last header-interface">
+				<div class="search-form">
+					<?php get_search_form(); ?>
+				</div>
+				<div class="social">
+					<img src="<?php bloginfo( 'template_directory' ); ?>/img/social.png">
+				</div>
+				<div class="welcome-message">
+					<p>Добро пожаловать на PM-блог.  <a href="#">Войдите</a> или <a href="#">Зарегистрируйтесь</a></p>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>		
+	</div>
+	<div class="main-menu">
+		<div class="aligner">
+			<?php 
+				wp_nav_menu( array(
+					'theme_location'  => 'main-menu',
+					'container'       => ''
+					) )
+			?>
+			
+		</div>
+	</div>
