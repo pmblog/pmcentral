@@ -43,7 +43,7 @@
 					<?php endwhile; endif; ?>
 				</div>
 			</div>
-		</div>	
+		</div>
 	</div>
-<?php get_sidebar(); ?>	
+<?php get_sidebar(); ?>
 <?php get_footer(); ?>
