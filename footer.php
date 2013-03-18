@@ -1,6 +1,6 @@
 	<div class="footer">
 		<div class="aligner">
-			footer
+
 		</div>
 	</div>
 <?php wp_footer(); ?>
